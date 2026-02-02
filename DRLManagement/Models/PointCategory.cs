@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.Models
 {
-    internal class PointCategory
+    public class PointCategory
     {
         public int Id { get; set; }
-        public string PointName { get; set; } = string.Empty;
-
+        public string Category { get; set; } = string.Empty;
+        public double MaxScore { get; set; }
+        public int? ParentId { get; set; }
+        public PointCategory? Parent { get; set; }
+        public ICollection<PointCategory> Children { get; set; } = new List<PointCategory>();
     }
 }

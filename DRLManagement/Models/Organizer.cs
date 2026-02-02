@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.Models
 {
-    internal class Organizer
+    public class Organizer
     {
+        public int UserId { get; set; }
+        public string OrganizerCode { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
+        public bool IsActive { get; set; } = true;
+        public int TotalEvents { get; set; }
+        public User User { get; set; } = null!;
+        public ICollection<Event> Events { get; set; } = new List<Event>();
     }
 }

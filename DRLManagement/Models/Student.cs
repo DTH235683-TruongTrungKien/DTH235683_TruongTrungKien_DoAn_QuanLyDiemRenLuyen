@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.Models
 {
-    internal class Student
+    public class Student
     {
+        public int UserId { get; set; }
+        public string StudentCode { get; set; } = string.Empty;
+        public string ClassName {  get; set; } = string.Empty;
+        public DateTime? BirthDay { get; set; }
+        public string Address { get; set; } = string.Empty;
+        public double? GPA { get; set; }
+        public User User { get; set; } = null!;
+        public ICollection<EventRegistration>? EventDetails { get; set; }
     }
 }

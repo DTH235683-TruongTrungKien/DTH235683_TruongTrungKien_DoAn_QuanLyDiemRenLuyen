@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.Models
 {
-    internal class PointDetail
+    public class PointDetail
     {
+        public int CategoryId { get; set; }
+        public PointCategory Category { get; set; } = null!;
+        public int StudentId { get; set; }
+        public Student Student { get; set; } = null!;
+        public double TotalScore { get; set; }
+        public int SemesterId { get; set; }
+        public Semester Semester { get; set; } = null!;
+
+
     }
 }

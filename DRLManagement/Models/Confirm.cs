@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.Models
 {
-    internal class Confirm
+    public class Confirm
     {
+        public int Id { get; set; }
+        public string Reason { get; set; } = string.Empty;
+        public int SemesterId { get; set; }
+        public Semester Semester { get; set; } = null!;
+        public int StudentId { get; set; }
+        public Student Student { get; set; } = null!;
+        public int? ManagerId { get; set; }
+        public Manager? Manager { get; set; } = null!;
     }
 }
