@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.DTOs.AdminDTOs
 {
-    public class Admin
+    public class CreateUpdateAdminDTO
     {
-        [Key]
         public int UserId { get; set; }
         public bool IsSuperAdmin { get; set; } = false;
         public string Department { get; set; } = string.Empty;
-        public User User { get; set; } = null!;
     }
 }

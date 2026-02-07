@@ -1,15 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace QLDRL.Models
+﻿namespace QLDRL.DTOs.ManagerDTOs
 {
-    public class Manager
+    public class CreateUpdateManagerDTO
     {
-        [Key]
         public int UserId { get; set; }
         public string ManagerCode { get; set; } = string.Empty;
         public string Position { get; set; } = string.Empty;
         public string Department { get; set; } = string.Empty;
         public string FacultyName { get; set; } = string.Empty;
-        public User User { get; set; } = null!;
     }
 }

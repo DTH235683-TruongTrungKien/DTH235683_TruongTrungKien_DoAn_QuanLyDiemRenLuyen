@@ -1,6 +1,6 @@
 ﻿using QLDRL.DTOs.UserDTOs;
+using QLDRL.Helpers;
 using QLDRL.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace QLDRL.DTOs.Mappers
 {
@@ -12,26 +12,74 @@ namespace QLDRL.DTOs.Mappers
             {
                 Id = user.Id,
                 Email = user.Email,
-                Name = user.Name,
-                Roles = user.UserRoles.Select(x => x.Role.Name).ToList(),
+                FullName = user.FullName,
+                Birthday = user.Birthday.ToString(),
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+                RoleNames = string.Join(", ", user.Roles.Select(x => x.Name).ToList()),
+                Status = user.IsActive ? "Hoạt động" : "Ngừng hoạt động"
             };
             return userDTO;
+        }
+        public static List<UserDTO> ToUserDTOList(List<User> users)
+        {
+            return users.Select(user => new UserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FullName = user.FullName,
+                Birthday = user.Birthday.ToString(),
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+                RoleNames = string.Join(", ", user.Roles.Select(x => x.Name).ToList())
+            }).ToList();
+        }
+        public static CurrentUserDTO ToCurrentUserDTO(User user)
+        {
+            var currentUserDTO = new CurrentUserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FullName = user.FullName,
+                Birthday = user.Birthday.ToString(),
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+                RoleNames = user.Roles.Select(x => x.Name).ToList(),
+                Admin = AdminMapper.ToAdminDTO(user.Admin!),
+                Manager = ManagerMapper.ToManagerDTO(user.Manager!),
+                Organizer = OrganizerMapper.ToOrganizerDTO(user.Organizer!),
+                Student = StudentMapper.ToStudentDTO(user.Student!)
+            };
+            return currentUserDTO;
         }
 
         public static User ToUser(CreateUpdateUserDTO createUserDTO)
         {
             var user = new User()
             {
-                Id = createUserDTO.Id,
                 Email = createUserDTO.Email,
-                Name = createUserDTO.Name,
+                HashedPassword = Utils.HashPassword(createUserDTO.Password),
+                FullName = createUserDTO.FullName,
+                Birthday = Utils.ConvertDate(createUserDTO.Birthday),
+                PhoneNumber = createUserDTO.PhoneNumber,
+                Address = createUserDTO.Address,
             };
             return user;
         }
         public static void MapUpdate(User user, CreateUpdateUserDTO updateUserDTO)
         {
             user.Email = updateUserDTO.Email;
-            user.Name = updateUserDTO.Name;
+            user.FullName = updateUserDTO.FullName;
+            user.PhoneNumber = updateUserDTO.PhoneNumber;
+            user.Address = updateUserDTO.Address;
+            user.Birthday = Utils.ConvertDate(updateUserDTO.Birthday);
+        }
+        public static void MapEdit(User user, EditProfileDTO editUserDTO)
+        {
+            user.FullName = editUserDTO.FullName;
+            if (editUserDTO.PhoneNumber != null) user.PhoneNumber = editUserDTO.PhoneNumber;
+            if (editUserDTO.Address != null) user.Address = editUserDTO.Address;
+            user.Birthday = Utils.ConvertDate(editUserDTO.Birthday);
         }
     }
 }

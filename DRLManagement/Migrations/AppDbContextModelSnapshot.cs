@@ -27,6 +27,10 @@ namespace QLDRL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsSuperAdmin")
                         .HasColumnType("bit");
 
@@ -54,30 +58,25 @@ namespace QLDRL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int?>("ManagerUserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Note")
+                    b.Property<string>("Response")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SemesterId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentUserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ManagerUserId");
 
-                    b.HasIndex("SemesterId");
-
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentUserId");
 
                     b.ToTable("Appeals");
                 });
@@ -90,26 +89,32 @@ namespace QLDRL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int?>("ManagerUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("RegisteredDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentUserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ManagerUserId");
 
                     b.HasIndex("SemesterId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentUserId");
 
                     b.ToTable("Confirms");
                 });
@@ -125,19 +130,40 @@ namespace QLDRL.Migrations
                     b.Property<double>("AddPoint")
                         .HasColumnType("float");
 
-                    b.Property<string>("EventDescription")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EventName")
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrganizationUnit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrganizerUserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrganizerId")
+                    b.Property<int>("PointCategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistrationExpired")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("RemovePoint")
                         .HasColumnType("float");
@@ -145,11 +171,20 @@ namespace QLDRL.Migrations
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TargetedAmount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("OrganizerUserId");
 
-                    b.HasIndex("OrganizerId");
+                    b.HasIndex("PointCategoryId");
 
                     b.HasIndex("SemesterId");
 
@@ -161,20 +196,20 @@ namespace QLDRL.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentUserId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAttended")
-                        .HasColumnType("bit");
+                    b.Property<int>("AttendStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegisteredAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("EventId", "StudentId");
+                    b.HasKey("EventId", "StudentUserId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentUserId");
 
-                    b.ToTable("EventsRegistrations");
+                    b.ToTable("EventRegistrations");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Evidence", b =>
@@ -192,10 +227,10 @@ namespace QLDRL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerUserId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -206,11 +241,53 @@ namespace QLDRL.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("ManagerUserId");
-
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentUserId");
 
                     b.ToTable("Evidences");
+                });
+
+            modelBuilder.Entity("QLDRL.Models.Faculty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Faculties");
+                });
+
+            modelBuilder.Entity("QLDRL.Models.Major", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Majors");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Manager", b =>
@@ -218,10 +295,15 @@ namespace QLDRL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("AssignedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Faculty")
+                    b.Property<string>("FacultyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManagerCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -239,17 +321,18 @@ namespace QLDRL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OrganizerCode")
+                    b.Property<string>("ClubName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalEvents")
+                    b.Property<int>("TotalActiveEvents")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalCreatedEvents")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");
@@ -275,6 +358,10 @@ namespace QLDRL.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
@@ -284,23 +371,23 @@ namespace QLDRL.Migrations
 
             modelBuilder.Entity("QLDRL.Models.PointDetail", b =>
                 {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("StudentUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PointCategoryId")
                         .HasColumnType("int");
 
                     b.Property<double>("TotalScore")
                         .HasColumnType("float");
 
-                    b.HasKey("StudentId", "SemesterId", "CategoryId");
+                    b.HasKey("SemesterId", "StudentUserId", "PointCategoryId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("PointCategoryId");
 
-                    b.HasIndex("SemesterId");
+                    b.HasIndex("StudentUserId");
 
                     b.ToTable("PointDetails");
                 });
@@ -330,7 +417,11 @@ namespace QLDRL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Code")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SemesterCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -344,21 +435,18 @@ namespace QLDRL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("EnrollmentYear")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("BirthDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ClassName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("GPA")
+                    b.Property<double>("GPA")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SemesterId")
+                    b.Property<string>("GraduationYear")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("StudentCode")
@@ -367,9 +455,36 @@ namespace QLDRL.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("SemesterId");
+                    b.HasIndex("StudentClassId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("QLDRL.Models.StudentClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MajorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("MajorId");
+
+                    b.ToTable("StudentClasses");
                 });
 
             modelBuilder.Entity("QLDRL.Models.User", b =>
@@ -380,15 +495,29 @@ namespace QLDRL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("Birthday")
+                        .HasColumnType("date");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -400,19 +529,19 @@ namespace QLDRL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("QLDRL.Models.UserRole", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("RolesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("RolesId", "UsersId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UsersId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Admin", b =>
@@ -435,16 +564,12 @@ namespace QLDRL.Migrations
                         .IsRequired();
 
                     b.HasOne("QLDRL.Models.Manager", "Manager")
-                        .WithMany("Appeals")
-                        .HasForeignKey("ManagerId");
-
-                    b.HasOne("QLDRL.Models.Semester", null)
-                        .WithMany("Appeals")
-                        .HasForeignKey("SemesterId");
+                        .WithMany()
+                        .HasForeignKey("ManagerUserId");
 
                     b.HasOne("QLDRL.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -458,18 +583,18 @@ namespace QLDRL.Migrations
             modelBuilder.Entity("QLDRL.Models.Confirm", b =>
                 {
                     b.HasOne("QLDRL.Models.Manager", "Manager")
-                        .WithMany("Confirms")
-                        .HasForeignKey("ManagerId");
+                        .WithMany()
+                        .HasForeignKey("ManagerUserId");
 
                     b.HasOne("QLDRL.Models.Semester", "Semester")
-                        .WithMany("Confirms")
+                        .WithMany()
                         .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QLDRL.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -482,23 +607,25 @@ namespace QLDRL.Migrations
 
             modelBuilder.Entity("QLDRL.Models.Event", b =>
                 {
-                    b.HasOne("QLDRL.Models.Manager", "Manager")
-                        .WithMany("Events")
-                        .HasForeignKey("ManagerId");
-
                     b.HasOne("QLDRL.Models.Organizer", "Organizer")
                         .WithMany("Events")
-                        .HasForeignKey("OrganizerId");
+                        .HasForeignKey("OrganizerUserId");
+
+                    b.HasOne("QLDRL.Models.PointCategory", "PointCategory")
+                        .WithMany()
+                        .HasForeignKey("PointCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QLDRL.Models.Semester", "Semester")
-                        .WithMany("Events")
+                        .WithMany()
                         .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Manager");
-
                     b.Navigation("Organizer");
+
+                    b.Navigation("PointCategory");
 
                     b.Navigation("Semester");
                 });
@@ -506,14 +633,14 @@ namespace QLDRL.Migrations
             modelBuilder.Entity("QLDRL.Models.EventRegistration", b =>
                 {
                     b.HasOne("QLDRL.Models.Event", "Event")
-                        .WithMany("Details")
+                        .WithMany("EventRegistrations")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QLDRL.Models.Student", "Student")
-                        .WithMany("EventDetails")
-                        .HasForeignKey("StudentId")
+                        .WithMany("EventRegistrations")
+                        .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -530,19 +657,33 @@ namespace QLDRL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLDRL.Models.Manager", null)
-                        .WithMany("Evidences")
-                        .HasForeignKey("ManagerUserId");
-
                     b.HasOne("QLDRL.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Event");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("QLDRL.Models.Faculty", b =>
+                {
+                    b.HasOne("QLDRL.Models.Event", null)
+                        .WithMany("AllowFaculties")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("QLDRL.Models.Major", b =>
+                {
+                    b.HasOne("QLDRL.Models.Faculty", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Manager", b =>
@@ -571,32 +712,33 @@ namespace QLDRL.Migrations
                 {
                     b.HasOne("QLDRL.Models.PointCategory", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("QLDRL.Models.PointDetail", b =>
                 {
-                    b.HasOne("QLDRL.Models.PointCategory", "Category")
+                    b.HasOne("QLDRL.Models.PointCategory", "PointCategory")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("PointCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QLDRL.Models.Semester", "Semester")
-                        .WithMany("Points")
+                        .WithMany()
                         .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QLDRL.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
+                        .WithMany("PointDetails")
+                        .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("PointCategory");
 
                     b.Navigation("Semester");
 
@@ -605,9 +747,11 @@ namespace QLDRL.Migrations
 
             modelBuilder.Entity("QLDRL.Models.Student", b =>
                 {
-                    b.HasOne("QLDRL.Models.Semester", null)
-                        .WithMany("Students")
-                        .HasForeignKey("SemesterId");
+                    b.HasOne("QLDRL.Models.StudentClass", "StudentClass")
+                        .WithMany()
+                        .HasForeignKey("StudentClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QLDRL.Models.User", "User")
                         .WithOne("Student")
@@ -615,42 +759,48 @@ namespace QLDRL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("StudentClass");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QLDRL.Models.UserRole", b =>
+            modelBuilder.Entity("QLDRL.Models.StudentClass", b =>
                 {
-                    b.HasOne("QLDRL.Models.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("QLDRL.Models.Event", null)
+                        .WithMany("AllowClasses")
+                        .HasForeignKey("EventId");
+
+                    b.HasOne("QLDRL.Models.Major", "Major")
+                        .WithMany()
+                        .HasForeignKey("MajorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLDRL.Models.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
+                    b.Navigation("Major");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("QLDRL.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
+                    b.HasOne("QLDRL.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("QLDRL.Models.Event", b =>
                 {
-                    b.Navigation("Details");
-                });
+                    b.Navigation("AllowClasses");
 
-            modelBuilder.Entity("QLDRL.Models.Manager", b =>
-                {
-                    b.Navigation("Appeals");
+                    b.Navigation("AllowFaculties");
 
-                    b.Navigation("Confirms");
-
-                    b.Navigation("Events");
-
-                    b.Navigation("Evidences");
+                    b.Navigation("EventRegistrations");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Organizer", b =>
@@ -663,27 +813,11 @@ namespace QLDRL.Migrations
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("QLDRL.Models.Role", b =>
-                {
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("QLDRL.Models.Semester", b =>
-                {
-                    b.Navigation("Appeals");
-
-                    b.Navigation("Confirms");
-
-                    b.Navigation("Events");
-
-                    b.Navigation("Points");
-
-                    b.Navigation("Students");
-                });
-
             modelBuilder.Entity("QLDRL.Models.Student", b =>
                 {
-                    b.Navigation("EventDetails");
+                    b.Navigation("EventRegistrations");
+
+                    b.Navigation("PointDetails");
                 });
 
             modelBuilder.Entity("QLDRL.Models.User", b =>
@@ -695,8 +829,6 @@ namespace QLDRL.Migrations
                     b.Navigation("Organizer");
 
                     b.Navigation("Student");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

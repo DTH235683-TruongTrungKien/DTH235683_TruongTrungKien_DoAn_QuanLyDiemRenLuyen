@@ -8,7 +8,7 @@ namespace QLDRL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PointDetail> builder)
         {
-            builder.HasKey(x => new { x.StudentId, x.SemesterId, x.CategoryId });
+            builder.HasKey(x => new { x.SemesterId, x.StudentUserId, x.PointCategoryId });
         }
     }
 }

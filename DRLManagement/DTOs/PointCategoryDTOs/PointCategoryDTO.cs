@@ -1,13 +1,11 @@
-﻿namespace QLDRL.Models
+﻿namespace QLDRL.DTOs.PointCategoryDTOs
 {
-    public class PointCategory
+    public class PointCategoryDTO
     {
         public int Id { get; set; }
         public string Category { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public double MaxScore { get; set; } = 0;
         public int? ParentId { get; set; }
-        public PointCategory? Parent { get; set; }
-        public ICollection<PointCategory> Children { get; set; } = new List<PointCategory>();
     }
 }

@@ -1,31 +1,27 @@
 ﻿using QLDRL.Enums;
+using QLDRL.Models;
 
-namespace QLDRL.Models
+namespace QLDRL.DTOs.EventDTOs
 {
-    public class Event
+    public class CreateUpdateEventDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
-        public EventStatus Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime RegistrationExpired {  get; set; }
+        public EventStatus? Status {  get; set; }
+        public DateTime RegistrationExpired { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string OrganizationUnit { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public int SemesterId { get; set; }
-        public Semester Semester { get; set; } = null!;
         public int? OrganizerUserId { get; set; }
-        public Organizer? Organizer { get; set; }
         public int TargetedAmount { get; set; } = 0;
         public int PointCategoryId { get; set; }
-        public PointCategory PointCategory { get; set; } = null!;
         public double AddPoint { get; set; } = 0;
         public double RemovePoint { get; set; } = 0;
-        public ICollection<EventRegistration> EventRegistrations { get; set; } = new List<EventRegistration>();
-        public ICollection<Faculty> AllowFaculties { get; set; } = new List<Faculty>();
-        public ICollection<StudentClass> AllowClasses { get; set; } = new List<StudentClass>();
+        public List<int> AllowFacultyIds { get; set; } = new();
+        public List<int> AllowClassIds { get; set; } = new();
     }
 }

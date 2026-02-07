@@ -1,9 +1,10 @@
 ﻿namespace QLDRL.Models
 {
-    public class Semester
+    public class StudentClass
     {
         public int Id { get; set; }
-        public string SemesterCode { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public int MajorId { get; set; }
+        public Major Major { get; set; } = null!;
     }
 }

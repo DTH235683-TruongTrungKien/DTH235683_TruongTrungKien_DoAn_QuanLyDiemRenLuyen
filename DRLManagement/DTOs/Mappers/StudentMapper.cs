@@ -1,44 +1,45 @@
-﻿using QLDRL.DTOs.StudentDTOs;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using QLDRL.DTOs.StudentDTOs;
 using QLDRL.Models;
 
 namespace QLDRL.DTOs.Mappers
 {
     public static class StudentMapper
     {
-        public static StudentDTO ToStudentDTO(Student student)
+        public static StudentDTO? ToStudentDTO(Student student)
         {
-            var studentDTO = new StudentDTO()
+            if (student == null) return null;
+            return new StudentDTO
             {
                 UserId = student.UserId,
                 StudentCode = student.StudentCode,
-                StudentName = student.User.Name,
-                ClassName = student.ClassName,
-                BirthDay = student.BirthDay,
-                Address = student.Address,
+                ClassName = student.StudentClass.Name,
+                MajorName = student.StudentClass.Major.Name,
+                FacultyName = student.StudentClass.Major.Faculty.Name,
+                SchoolYear = student.EnrollmentYear + " - " + student.GraduationYear,
                 GPA = student.GPA,
             };
-            return studentDTO;
         }
 
-        public static Student ToStudent(CreateUpdateStudentDTO createStudentDTO)
+        public static Student ToStudent(CreateUpdateStudentDTO createStudentDTO, StudentClass studentClass)
         {
             var student = new Student()
             {
                 UserId = createStudentDTO.UserId,
                 StudentCode = createStudentDTO.StudentCode,
-                ClassName = createStudentDTO.ClassName,
-                BirthDay = createStudentDTO.BirthDay,
-                Address = createStudentDTO.Address,
+                StudentClass = studentClass,
+                EnrollmentYear = createStudentDTO.EnrollmentYear,
+                GraduationYear = createStudentDTO.GraduationYear,
                 GPA = createStudentDTO.GPA,
             };
             return student;
         }
-        public static void MapUpdate(Student student, CreateUpdateStudentDTO updateStudentDTO)
+        public static void MapUpdate(Student student, CreateUpdateStudentDTO updateStudentDTO, StudentClass studentClass)
         {
             student.StudentCode = updateStudentDTO.StudentCode;
-            student.ClassName = updateStudentDTO.ClassName;
-            student.BirthDay = updateStudentDTO.BirthDay;
-            student.Address = updateStudentDTO.Address;
+            student.StudentClass = studentClass;
+            student.EnrollmentYear = updateStudentDTO.EnrollmentYear;
+            student.GraduationYear = updateStudentDTO.GraduationYear;
             student.GPA = updateStudentDTO.GPA;
         }
     }

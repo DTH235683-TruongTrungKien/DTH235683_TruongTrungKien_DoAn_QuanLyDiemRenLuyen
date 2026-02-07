@@ -8,7 +8,7 @@ namespace QLDRL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<EventRegistration> builder)
         {
-            builder.HasKey(x => new { x.EventId, x.StudentId });
+            builder.HasKey(x => new { x.EventId, x.StudentUserId });
         }
     }
 }

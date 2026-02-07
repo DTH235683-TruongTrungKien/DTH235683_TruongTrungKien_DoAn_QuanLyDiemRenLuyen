@@ -10,6 +10,21 @@ namespace QLDRL.Data.Configurations
         {
             builder.HasIndex(x => x.Email).IsUnique();
 
+            builder.HasOne(x => x.Admin)
+                .WithOne(x => x.User)
+                .HasForeignKey<Admin>(x => x.UserId);
+
+            builder.HasOne(x => x.Manager)
+                .WithOne(x => x.User)
+                .HasForeignKey<Manager>(x => x.UserId);
+
+            builder.HasOne(x => x.Organizer)
+                .WithOne(x => x.User)
+                .HasForeignKey<Organizer>(x => x.UserId);
+
+            builder.HasOne(x => x.Student)
+                .WithOne(x => x.User)
+                .HasForeignKey<Student>(x => x.UserId);
         }
     }
 }
