@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QLDRL.Forms.Student
 {
-    public partial class frmStudentMain : Form
+    public partial class ucStudentPanel : UserControl
     {
-        public frmStudentMain()
+        public ucStudentPanel()
         {
             InitializeComponent();
         }

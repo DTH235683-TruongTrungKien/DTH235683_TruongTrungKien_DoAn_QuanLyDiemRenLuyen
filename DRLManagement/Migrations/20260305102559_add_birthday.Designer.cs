@@ -12,8 +12,8 @@ using QLDRL.Data;
 namespace QLDRL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260202022329_CreateDB")]
-    partial class CreateDB
+    [Migration("20260305102559_add_birthday")]
+    partial class add_birthday
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -383,6 +383,10 @@ namespace QLDRL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Birthday")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -403,19 +407,19 @@ namespace QLDRL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("QLDRL.Models.UserRole", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("RolesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("RolesId", "UsersId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UsersId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Admin", b =>
@@ -621,23 +625,19 @@ namespace QLDRL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QLDRL.Models.UserRole", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.HasOne("QLDRL.Models.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("QLDRL.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QLDRL.Models.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
+                    b.HasOne("QLDRL.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Event", b =>
@@ -664,11 +664,6 @@ namespace QLDRL.Migrations
             modelBuilder.Entity("QLDRL.Models.PointCategory", b =>
                 {
                     b.Navigation("Children");
-                });
-
-            modelBuilder.Entity("QLDRL.Models.Role", b =>
-                {
-                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("QLDRL.Models.Semester", b =>
@@ -698,8 +693,6 @@ namespace QLDRL.Migrations
                     b.Navigation("Organizer");
 
                     b.Navigation("Student");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QLDRL.Forms.Auth
+namespace QLDRL.Forms.Manager
 {
-    public partial class frmLogin : Form
+    public partial class ucManagerPanel : UserControl
     {
-        public frmLogin()
+        public ucManagerPanel()
         {
             InitializeComponent();
         }

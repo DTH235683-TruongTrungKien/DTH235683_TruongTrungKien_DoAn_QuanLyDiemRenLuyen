@@ -8,7 +8,6 @@ namespace QLDRL.Data
     {
         public DbSet<User> Users  { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
@@ -21,13 +20,11 @@ namespace QLDRL.Data
         public DbSet<Appeal> Appeals { get; set; }
         public DbSet<Confirm> Confirms { get; set; }
         public DbSet<Semester> Semesters { get; set; }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["QLDRLConnection"].ConnectionString);
         }
     }
 }

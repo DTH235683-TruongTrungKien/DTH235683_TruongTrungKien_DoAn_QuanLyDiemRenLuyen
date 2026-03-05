@@ -1,6 +1,6 @@
-﻿using QLDRL.DTOs.UserDTOs;
+﻿using QLDRL.DTOs.RoleDTOs;
+using QLDRL.DTOs.UserDTOs;
 using QLDRL.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace QLDRL.DTOs.Mappers
 {
@@ -13,7 +13,7 @@ namespace QLDRL.DTOs.Mappers
                 Id = user.Id,
                 Email = user.Email,
                 Name = user.Name,
-                Roles = user.UserRoles.Select(x => x.Role.Name).ToList(),
+                RoleNames = user.Roles.Select(x => x.Name).ToList()
             };
             return userDTO;
         }

@@ -1,4 +1,5 @@
-﻿using QLDRL.Models;
+﻿using QLDRL.DTOs.RoleDTOs;
+using QLDRL.Models;
 
 namespace QLDRL.DTOs.UserDTOs
 {
@@ -8,6 +9,6 @@ namespace QLDRL.DTOs.UserDTOs
         public string Email { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Password {  get; set; } = string.Empty;
-        public List<int> RoleIds { get; set; } = new List<int>();
+        public List<int> RoleIds { get; set; } = new();
     }
 }

@@ -3,18 +3,18 @@ using QLDRL.Data;
 using QLDRL.DTOs.UserDTOs;
 using QLDRL.Models;
 using QLDRL.DTOs.Mappers;
-using QLDRL.Helpers;
 
 namespace QLDRL.Services
 {
     public class UserService
     {
+        private readonly RoleServices _roleServices;
         private readonly AppDbContext _context;
-        public UserService(AppDbContext context)
+        public UserService(AppDbContext context, RoleServices roleServices)
         {
             _context = context;
+            _roleServices = roleServices;
         }
-        //CRUD
         public async Task<List<User>> GetAll()
         {
             return await _context.Users.ToListAsync();
@@ -30,48 +30,49 @@ namespace QLDRL.Services
         public async Task Create(CreateUpdateUserDTO createUserDTO)
         {
             User user = UserMapper.ToUser(createUserDTO);
-            user.UserRoles = createUserDTO.RoleIds.Select(roleId => new UserRole
+            var roles = new List<Role>();
+            foreach (var roleId in createUserDTO.RoleIds)
             {
-                RoleId = roleId,
-            }).ToList();
+                var role = await _roleServices.GetById(roleId);
+                if(role != null)
+                {
+                    roles.Add(role);
+                }
+            }
+            user.Roles = roles;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
         public async Task Update(User user, CreateUpdateUserDTO updateUserDTO)
         {
             UserMapper.MapUpdate(user, updateUserDTO);
-            
-            var newRoleIds = updateUserDTO.RoleIds;
 
-            _context.UserRoles.RemoveRange(user.UserRoles.Where(x => !newRoleIds.Contains(x.RoleId)).ToList());
-            _context.UserRoles.AddRange(newRoleIds
-                .Except(user.UserRoles.Select(x => x.RoleId))
-                .Select(roleId => new UserRole
+            var roleIds = updateUserDTO.RoleIds;
+            var roles = new List<Role>();
+            foreach(var roleId in roleIds)
+            {
+                var role = await _roleServices.GetById(roleId);
+                if(role != null)
                 {
-                    RoleId = roleId,
-                })
-            );
+                    roles.Add(role);
+                }
+            }
+            var oldRoles = user.Roles.Where(x => !roleIds.Contains(x.Id)).ToList();
+            foreach(var role in oldRoles)
+            {
+                user.Roles.Remove(role);
+            }
+            var newRoles = roles.Where(r => !user.Roles.Any(ur => ur.Id == r.Id)).ToList();
+            foreach(var role in newRoles)
+            {
+                user.Roles.Add(role);
+            }
             await _context.SaveChangesAsync();
         }
         public async Task Delete(User user)
         {
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-        }
-
-        //Auth
-        public async Task
-        public async Task<UserDTO?> Login(string email, string password)
-        {
-            var user = await _context.Users
-                .Include(x => x.UserRoles)
-                .ThenInclude(x => x.Role)
-                .FirstOrDefaultAsync(x => x.Email == email);
-            if (user == null || !Utils.VerifyPassword(password, user.HashedPassword))
-            {
-                return null;
-            }
-            return UserMapper.ToUserDTO(user);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace QLDRL.Helpers
 {
-    public static class Session
+    public class Session
     {
-        public static UserDTO? CurrentUser { get; set; }
-        public static bool IsAuthenticated { get {  return CurrentUser != null; } }
+        public UserDTO? CurrentUser { get; set; }
+        public bool IsAuthenticated { get {  return CurrentUser != null; } }
     }
 }
