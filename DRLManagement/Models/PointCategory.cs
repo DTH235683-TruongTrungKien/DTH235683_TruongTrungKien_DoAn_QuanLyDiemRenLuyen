@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Category { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
         public double MaxScore { get; set; }
         public int? ParentId { get; set; }
         public PointCategory? Parent { get; set; }

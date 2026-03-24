@@ -1,13 +1,15 @@
-﻿namespace QLDRL.DTOs.StudentDTOs
+﻿using QLDRL.DTOs.UserDTOs;
+
+namespace QLDRL.DTOs.StudentDTOs
 {
     public class StudentDTO
     {
         public int UserId { get; set; }
         public string StudentCode { get; set; } = string.Empty;
-        public string StudentName { get; set; } = string.Empty;
         public string ClassName { get; set; } = string.Empty;
-        public DateTime? BirthDay { get; set; }
-        public string Address { get; set; } = string.Empty;
-        public double? GPA { get; set; }
+        public string MajorName { get; set; } = string.Empty;
+        public string FacultyName {  get; set; } = string.Empty;
+        public string SchoolYear {  get; set; } = string.Empty;
+        public double GPA { get; set; } = 0;
     }
 }

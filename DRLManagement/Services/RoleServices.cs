@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QLDRL.Data;
-using QLDRL.DTOs.RoleDTOs;
 using QLDRL.Models;
 namespace QLDRL.Services
 {
@@ -28,27 +27,5 @@ namespace QLDRL.Services
             return await _context.Roles.FirstOrDefaultAsync(r => r.Name == name);
         }
 
-        public async Task<Role> Create(RoleDTO roleDTO)
-        {
-            var role = new Role
-            {
-                Name = roleDTO.Name
-            };
-            _context.Roles.Add(role);
-            await _context.SaveChangesAsync();
-            return role;
-        }
-
-        public async void Update(Role role, RoleDTO roleDTO)
-        {
-            role.Name = roleDTO.Name;
-            await _context.SaveChangesAsync();
-        }
-
-        public Task Delete(Role role)
-        {
-            _context.Roles.Remove(role);
-            return _context.SaveChangesAsync();
-        }
     }
 }

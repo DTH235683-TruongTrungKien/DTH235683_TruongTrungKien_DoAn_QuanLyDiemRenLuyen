@@ -1,5 +1,6 @@
 ﻿using DRLManagement;
 using Microsoft.Extensions.DependencyInjection;
+using QLDRL.DTOs.Mappers;
 using QLDRL.Forms.Main;
 using QLDRL.Helpers;
 using QLDRL.Services;
@@ -19,12 +20,13 @@ namespace QLDRL.Forms.Auth
     {
         private readonly AuthServices _authServices;
         private readonly Session _session;
-        public frmLogin(AuthServices authServices, Session session)
+        private readonly IServiceProvider _serviceProvider;
+        public frmLogin(AuthServices authServices, Session session, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _authServices = authServices;
             _session = session;
-
+            _serviceProvider = serviceProvider;
         }
 
         private async void btnConfirm_Click(object sender, EventArgs e)
@@ -34,24 +36,25 @@ namespace QLDRL.Forms.Auth
             gbLogin.Text = "Đăng nhập";
             string email = txtEmail.Text;
             string password = txtPassword.Text;
-
+            
             var user = await _authServices.Login(email, password);
-
             if (user != null)
             {
-                _session.CurrentUser = user;
-                var mainForm = Program.ServiceProvider.GetRequiredService<frmMain>();
-                mainForm.FormClosed += (s, e) =>
+                _session.SetCurrentUser(user);
+                var frmMain = _serviceProvider.GetRequiredService<frmMain>();
+
+                frmMain.FormClosed += (s, e) =>
                 {
                     this.Show();
                     txtPassword.Clear();
                 };
-                mainForm.Show();
+
+                frmMain.Show();
                 this.Hide();
             }
             else
             {
-                Utils.showMessages("Lỗi xác thực", "Email hoặc mật khẩu không chính xác.", this);
+                Utils.ShowMessages("Lỗi xác thực", "Email hoặc mật khẩu không chính xác.", this);
             }
         }
         private void btnShowHidePassword_Click(object sender, EventArgs e)

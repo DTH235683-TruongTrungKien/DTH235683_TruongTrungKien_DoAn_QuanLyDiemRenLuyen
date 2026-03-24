@@ -4,6 +4,8 @@ using QLDRL.Data;
 using QLDRL.Forms.Auth;
 using QLDRL.Forms.Main;
 using QLDRL.Helpers;
+using QLDRL.Presentation.Admin;
+using QLDRL.Presentation.Admin.Dialogs;
 using QLDRL.Presentation.Main;
 using QLDRL.Services;
 using System.Configuration;
@@ -15,7 +17,6 @@ namespace DRLManagement
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        public static IServiceProvider ServiceProvider { get; private set; }
         [STAThread]
         static void Main()
         {
@@ -30,7 +31,7 @@ namespace DRLManagement
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
 
             services.AddScoped<AuthServices>();
-            services.AddScoped<UserService>();
+            services.AddScoped<UserServices>();
             services.AddScoped<RoleServices>();
             services.AddScoped<StudentService>();
 
@@ -39,18 +40,22 @@ namespace DRLManagement
             services.AddTransient<frmLogin>();
             services.AddTransient<frmMain>();
             services.AddTransient<ucAccount>();
+            services.AddTransient<ucUsers>();
+            services.AddTransient<frmAddUserPopup>();
+            services.AddTransient<frmUpdateUserPopup>();
+            services.AddTransient<frmViewProfile>();
             //services.AddTransient<AdminForm>();
             //services.AddTransient<ManagerForm>();
             //services.AddTransient<StudentForm>();
             //services.AddTransient<OrganizerForm>();
 
-            ServiceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            var context = ServiceProvider.GetRequiredService<AppDbContext>();
+            var context = serviceProvider.GetRequiredService<AppDbContext>();
             var seeder = new DbSeeder(context);
             seeder.SeedRolesAndAdmin();
 
-            var loginForm = ServiceProvider.GetRequiredService<frmLogin>();
+            var loginForm = serviceProvider.GetRequiredService<frmLogin>();
             Application.Run(loginForm);
         }
     }

@@ -7,7 +7,7 @@
         public string ImagePath { get; set; } = string.Empty;
         public int EventId { get; set; }
         public Event Event { get; set; } = null!;
-        public int StudentId { get; set; }
+        public int StudentUserId { get; set; }
         public Student Student { get; set; } = null!;
     }
 }

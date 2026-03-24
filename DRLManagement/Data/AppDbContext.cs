@@ -12,8 +12,12 @@ namespace QLDRL.Data
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Major> Majors { get; set; }
+        public DbSet<StudentClass> StudentClasses { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<EventRegistration> EventsRegistrations { get; set; }
+        public DbSet<EventRegistration> EventRegistrations { get; set; }
+        public DbSet<EventDetail> EventDetails {  get; set; }
         public DbSet<PointCategory> PointCategories { get; set; }
         public DbSet<PointDetail> PointDetails { get; set; }
         public DbSet<Evidence> Evidences { get; set; }

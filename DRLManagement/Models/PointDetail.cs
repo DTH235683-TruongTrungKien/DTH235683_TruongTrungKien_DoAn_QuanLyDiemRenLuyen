@@ -4,7 +4,7 @@
     {
         public int CategoryId { get; set; }
         public PointCategory Category { get; set; } = null!;
-        public int StudentId { get; set; }
+        public int StudentUserId { get; set; }
         public Student Student { get; set; } = null!;
         public double TotalScore { get; set; }
         public int SemesterId { get; set; }

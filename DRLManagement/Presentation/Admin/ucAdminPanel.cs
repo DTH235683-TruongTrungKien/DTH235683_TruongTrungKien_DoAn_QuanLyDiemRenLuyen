@@ -1,26 +1,18 @@
-﻿using QLDRL.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using QLDRL.Helpers.States;
 
 namespace QLDRL.Forms.Admin
 {
     public partial class ucAdminPanel : UserControl
     {
+        public event Action ucUsers_Load;
         public ucAdminPanel()
         {
             InitializeComponent();
         }
-
         private void btnUser_Click(object sender, EventArgs e)
         {
             MenuState.SetButtonState(btnUser);
+            ucUsers_Load?.Invoke();
         }
 
         private void btnControl_Click(object sender, EventArgs e)

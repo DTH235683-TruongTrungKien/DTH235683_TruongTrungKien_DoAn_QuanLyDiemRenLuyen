@@ -246,7 +246,7 @@
             MaximizeBox = false;
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmMain";
+            Text = "&";
             Load += frmMain_Load;
             pnlMenu.ResumeLayout(false);
             pnlMenu.PerformLayout();

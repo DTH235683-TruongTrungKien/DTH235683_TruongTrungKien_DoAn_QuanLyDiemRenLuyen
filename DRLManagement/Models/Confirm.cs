@@ -6,9 +6,9 @@
         public string Reason { get; set; } = string.Empty;
         public int SemesterId { get; set; }
         public Semester Semester { get; set; } = null!;
-        public int StudentId { get; set; }
+        public int StudentUserId { get; set; }
         public Student Student { get; set; } = null!;
-        public int? ManagerId { get; set; }
+        public int? ManagerUserId { get; set; }
         public Manager? Manager { get; set; } = null!;
     }
 }

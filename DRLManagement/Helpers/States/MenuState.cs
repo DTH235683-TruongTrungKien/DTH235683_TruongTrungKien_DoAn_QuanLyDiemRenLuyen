@@ -1,6 +1,6 @@
 ﻿using Guna.UI2.WinForms;
 
-namespace QLDRL.Helpers
+namespace QLDRL.Helpers.States
 {
     public static class MenuState
     {
