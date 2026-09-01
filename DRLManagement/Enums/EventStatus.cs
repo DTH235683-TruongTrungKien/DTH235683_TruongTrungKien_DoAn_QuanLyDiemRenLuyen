@@ -8,6 +8,7 @@ namespace QLDRL.Enums
         Upcoming,
         Ongoing,
         Completed,
+        HaveEvidence,
         Rejected,
     }
 }

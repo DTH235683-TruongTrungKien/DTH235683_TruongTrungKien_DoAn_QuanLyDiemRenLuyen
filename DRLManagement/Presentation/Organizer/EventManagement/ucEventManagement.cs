@@ -5,6 +5,7 @@ using QLDRL.Services;
 using QLDRL.Enums;
 using QLDRL.Helpers;
 using QLDRL.Presentation.Organizer.EventManagement;
+using QLDRL.DTOs.EventDTOs;
 
 namespace QLDRL.Presentation.Organizer
 {
@@ -12,13 +13,15 @@ namespace QLDRL.Presentation.Organizer
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly EventService _eventService;
+        private readonly EvidenceService _evidenceService;
         private readonly Session _session;
         private int? _selectedEventId = null;
         private Panel? _selectedPanel = null;
 
         public ucEventManagement(IServiceProvider serviceProvider,
                         EventService eventService,
-                        Session session)
+                        Session session,
+                        EvidenceService evidenceService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -26,6 +29,7 @@ namespace QLDRL.Presentation.Organizer
             _session = session;
 
             btnSearch.Click += btnSearch_Click;
+            _evidenceService = evidenceService;
         }
         private void SelectEvent(Panel panel, int eventId)
         {
@@ -50,7 +54,6 @@ namespace QLDRL.Presentation.Organizer
             foreach (var ev in events)
             {
                 var eventDTO = EventMapper.ToEventDTO(ev);
-
                 var eventPreviewControl = _serviceProvider.GetRequiredService<ucEventPreview>();
                 eventPreviewControl.EventDTO = eventDTO;
                 var panel = eventPreviewControl.Controls["pnlEventPreview"] as Panel;

@@ -10,11 +10,13 @@ namespace QLDRL.Presentation.Student.Events
         public int eventId;
         private readonly Session _session;
         private readonly EvidenceService _evidenceService;
-        public frmEvidence(EvidenceService evidenceService, Session session)
+        private readonly EventService _eventService;
+        public frmEvidence(EvidenceService evidenceService, Session session, EventService eventService)
         {
             InitializeComponent();
             _evidenceService = evidenceService;
             _session = session;
+            _eventService = eventService;
         }
 
         private void frmEvidence_Load(object sender, EventArgs e)
@@ -56,6 +58,7 @@ namespace QLDRL.Presentation.Student.Events
                     break;
                 case ValidateEvidenceResult.Success:
                     await _evidenceService.Create(evd);
+                    await _eventService.SetStatus(eventId, EventStatus.HaveEvidence);
                     break;
                 default:
                     Utils.ShowMessages("Lỗi", "Có lỗi hệ thống xảy ra", this);

@@ -88,7 +88,7 @@
             lblStatus.Location = new Point(274, 23);
             lblStatus.Name = "lblStatus";
             lblStatus.Padding = new Padding(5);
-            lblStatus.Size = new Size(150, 40);
+            lblStatus.Size = new Size(150, 65);
             lblStatus.TabIndex = 23;
             lblStatus.Text = "Đang chờ duyệt";
             lblStatus.TextAlignment = ContentAlignment.MiddleCenter;

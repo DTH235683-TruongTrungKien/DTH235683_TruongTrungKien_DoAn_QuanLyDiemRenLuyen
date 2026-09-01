@@ -2,17 +2,22 @@
 using QLDRL.DTOs.EventDTOs;
 using QLDRL.Enums;
 using QLDRL.Helpers;
+using QLDRL.Services;
 
 namespace QLDRL.Presentation.Organizer.Dialogs
 {
     public partial class ucEventPreview : UserControl
     {
         public EventDTO EventDTO;
+        private readonly EventService _eventService;
         public IServiceProvider _serviceProvider;
-        public ucEventPreview(IServiceProvider serviceProvider)
+        private readonly EvidenceService _evidenceService;
+        public ucEventPreview(IServiceProvider serviceProvider, EvidenceService evidenceService, EventService eventService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
+            _evidenceService = evidenceService;
+            _eventService = eventService;
         }
         private (string, Color) ConvertEventStatus(EventStatus status)
         {
@@ -26,11 +31,13 @@ namespace QLDRL.Presentation.Organizer.Dialogs
                     return ("Đang diễn ra", Color.Orange);
                 case EventStatus.Completed:
                     return ("Đã hoàn thành", Color.DodgerBlue);
+                case EventStatus.HaveEvidence:
+                    return ("Đã hoàn thành - Chờ duyệt", Color.Purple);
                 case EventStatus.Rejected:
-                    return ("Bị từ chối", Color.Red);
+                            return ("Bị từ chối", Color.Red);
                 default:
-                    return (status.ToString(), Color.Black);
-            }
+                            return (status.ToString(), Color.Black);
+                        }
         }
         public void FillValue()
         {
@@ -44,7 +51,7 @@ namespace QLDRL.Presentation.Organizer.Dialogs
             lblEndDate.Text = EventDTO.EndDate.ToString();
         }
 
-        private void ucEventPreview_Load(object sender, EventArgs e)
+        private async void ucEventPreview_Load(object sender, EventArgs e)
         {
             FillValue();
         }

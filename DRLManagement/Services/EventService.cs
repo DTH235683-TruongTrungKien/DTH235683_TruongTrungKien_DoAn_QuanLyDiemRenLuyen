@@ -192,7 +192,12 @@ namespace QLDRL.Services
             return ValidateEventResult.Success;
 
         }
-
+        public async Task SetStatus(int eventId, EventStatus eventStatus)
+        {
+            var ev = await GetById(eventId);
+            ev.Status = eventStatus;
+            await _context.SaveChangesAsync();
+        }
         // Event Registration
         public async Task<List<EventRegistration>> GetAllStudentRegisteredEvents(int studentUserId)
         {
